@@ -2,6 +2,8 @@ using UnityEngine;
 
 class Bar : MonoBehaviour
 {
+    [SerializeField]
+
     Vector3 m_mousePose;
     [SerializeField]
     Ball m_ballPrefab;

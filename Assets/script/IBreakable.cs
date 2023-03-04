@@ -1,0 +1,4 @@
+interface IBreakable
+{
+    void OnBreak();
+}
