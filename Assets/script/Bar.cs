@@ -14,7 +14,8 @@ class Bar : MonoBehaviour
         //transform.position = m_mousePose;
         transform.position = new Vector3(m_mousePose.x, transform.position.y ,transform.position.z);
 
-        if(Input.GetMouseButton(0))
+        //if(Input.GetMouseButton(0))
+        if(Input.GetMouseButtonDown(0))
         {
             CreateBall();
         }

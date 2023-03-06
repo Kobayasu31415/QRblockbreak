@@ -12,6 +12,8 @@ class Ball :MonoBehaviour
     float m_boundaryLeft;
     float m_boundaryRight;
 
+    float m_ShotOffset = 5f;
+
     Renderer m_renderer;
     float m_radius;
 
@@ -25,7 +27,7 @@ class Ball :MonoBehaviour
     {
         m_radius = m_renderer.bounds.extents.x;
         //barの太さを考慮してない
-        transform.position +=  m_radius * Vector3.up * 5;
+        transform.position +=  m_radius * Vector3.up * m_ShotOffset;
         m_position = transform.position;
 
         m_velocity = Speed * Vector3.up;
