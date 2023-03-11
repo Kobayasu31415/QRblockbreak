@@ -10,11 +10,11 @@ class QRcodeGenerator: MonoBehaviour
 
     void Start()
     {
-        var texture = GenerateQR(256,256,"http://www.entcomp.iit.tsukuba.ac.jp/");
+        var texture = Generate(37,37,"http://www.entcomp.iit.tsukuba.ac.jp/");
         m_QR.texture = texture;
     }
     
-    Texture GenerateQR(int width, int height, string url)
+    public Texture2D Generate(int width, int height, string url)
     {
         var writer = new BarcodeWriter
         {
