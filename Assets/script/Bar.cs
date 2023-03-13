@@ -7,6 +7,7 @@ class Bar : MonoBehaviour
     Vector3 m_mousePose;
     [SerializeField]
     Ball m_ballPrefab;
+    public GameObject m_ball;
 
     void Update()
     {
@@ -24,7 +25,10 @@ class Bar : MonoBehaviour
 
     void CreateBall()
     {
-        var ball = Instantiate(m_ballPrefab,transform.position,transform.rotation);
-        //ball.transform.position = transform.position;
+        m_ball = GameObject.FindWithTag("Ball");
+        if(m_ball == null){
+            var ball = Instantiate(m_ballPrefab,transform.position,transform.rotation);
+            //ball.transform.position= transform.position;
+        }
     }
 }
