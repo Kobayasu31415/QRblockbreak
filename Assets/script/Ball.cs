@@ -3,9 +3,14 @@ using UnityEngine;
 class Ball :MonoBehaviour
 {
     [SerializeField]
-    const float Speed = 2f;
+    float Speed = 2f;
     Vector3 m_position;
     Vector3 m_velocity;
+
+    int m_destroyFlag = 0;
+
+    [SerializeField]
+    int NumofReflect;
 
     float m_boundaryTop;
     float m_boundaryBottom;
@@ -35,8 +40,6 @@ class Ball :MonoBehaviour
         m_boundaryBottom = Camera.main.ViewportToWorldPoint(Vector2.zero).y;
         m_boundaryLeft = Camera.main.ViewportToWorldPoint(Vector2.zero).x;
         m_boundaryRight = Camera.main.ViewportToWorldPoint(Vector2.right).x;
-
-        
     }
 
     void Update()
@@ -50,6 +53,7 @@ class Ball :MonoBehaviour
     void OnCollisionEnter(Collision collision) 
         {    
             m_velocity = Vector3.Reflect(m_velocity, collision.contacts[0].normal);
+            m_destroyFlag = 0; 
         }
 
     void boundScreen()
@@ -57,22 +61,26 @@ class Ball :MonoBehaviour
         if(m_position.y > m_boundaryTop - m_radius)
         {
             m_velocity.y = -Mathf.Abs(m_velocity.y);
+            m_destroyFlag++;
         }
         if (m_position.x > m_boundaryRight - m_radius)
         {
             m_velocity.x = -Mathf.Abs(m_velocity.x);
+            m_destroyFlag++;
         }
         if (m_position.x < m_boundaryLeft + m_radius)
         {
             m_velocity.x = Mathf.Abs(m_velocity.x);
+            m_destroyFlag++;
         }
     }
     
     void removeBall()
     {
-        if(m_position.y < m_boundaryBottom)
+        if((m_position.y < m_boundaryBottom)||(m_destroyFlag > NumofReflect))
         {
             Destroy(gameObject);
+            m_destroyFlag = 0;
         }
     }
 }

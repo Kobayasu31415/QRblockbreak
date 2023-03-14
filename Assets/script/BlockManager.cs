@@ -23,7 +23,7 @@ class BlockManager : MonoBehaviour
 
     void Start()
     {
-        m_QRTexture = m_QRcodeGenerator.Generate(37,37,"http://www.entcomp.iit.tsukuba.ac.jp/");
+        m_QRTexture = m_QRcodeGenerator.Generate(37,37,"https://github.com/Kobayasu31415/QRblockbreak");
         GenerateBlock();
     }
 
