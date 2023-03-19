@@ -31,8 +31,6 @@ class Ball :MonoBehaviour
     void Init()
     {
         m_radius = m_renderer.bounds.extents.x;
-        //barの太さを考慮してない
-        transform.position +=  m_radius * Vector3.up * m_ShotOffset;
         m_position = transform.position;
 
         m_velocity = Speed * Vector3.up;

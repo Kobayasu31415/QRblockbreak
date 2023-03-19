@@ -9,6 +9,18 @@ class Bar : MonoBehaviour
     Ball m_ballPrefab;
     public GameObject m_ball;
 
+    float m_barThickness;
+    Vector3 m_createBallPosition;
+
+    float m_ShotOffset = 2f; 
+
+    void Awake()
+    {
+        m_barThickness = gameObject.transform.localScale.y;
+        Debug.Log(m_barThickness);
+
+    }
+
     void Update()
     {
         m_mousePose = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -26,8 +38,10 @@ class Bar : MonoBehaviour
     void CreateBall()
     {
         m_ball = GameObject.FindWithTag("Ball");
+        m_createBallPosition = transform.position + m_barThickness * Vector3.up * m_ShotOffset;
+        //m_createBallPosition = transform.position + Vector3.up * m_ShotOffset;  
         if(m_ball == null){
-            var ball = Instantiate(m_ballPrefab,transform.position,transform.rotation);
+            var ball = Instantiate(m_ballPrefab,m_createBallPosition,transform.rotation);
             //ball.transform.position= transform.position;
         }
     }
