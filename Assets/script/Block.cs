@@ -19,6 +19,17 @@ class Block : MonoBehaviour, IBreakable
         }
     }
 
+    void Start()
+    {
+        float x = this.transform.position.x;
+        float y = this.transform.position.y;
+
+        float sum;
+        sum = x + y;
+        sum = sum /10;
+        m_deltaTime = sum;
+    }
+
     void Update()
     {
         m_deltaTime += Time.deltaTime;
