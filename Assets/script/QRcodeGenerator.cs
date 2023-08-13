@@ -10,7 +10,7 @@ class QRcodeGenerator: MonoBehaviour
 
     void Start()
     {
-        var texture = Generate(37,37,"http://www.entcomp.iit.tsukuba.ac.jp/");
+        var texture = Generate(37,37,"Init QRcode");
         m_QR.texture = texture;
     }
     

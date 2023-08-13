@@ -2,6 +2,8 @@ using UnityEngine;
 
 class BlockManager : MonoBehaviour
 {
+    [SerializeField]
+    string m_url;
 
     [SerializeField]
     Block m_blockPrefab;
@@ -23,7 +25,7 @@ class BlockManager : MonoBehaviour
 
     void Start()
     {
-        m_QRTexture = m_QRcodeGenerator.Generate(37,37,"https://github.com/Kobayasu31415/QRblockbreak");
+        m_QRTexture = m_QRcodeGenerator.Generate(37,37,m_url);
         GenerateBlock();
     }
 
