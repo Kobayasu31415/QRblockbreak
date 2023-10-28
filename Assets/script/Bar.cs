@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 class Bar : MonoBehaviour
@@ -43,6 +44,14 @@ class Bar : MonoBehaviour
         if(m_ball == null){
             var ball = Instantiate(m_ballPrefab,m_createBallPosition,transform.rotation);
             //ball.transform.position= transform.position;
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Item"))
+        {
+            collision.gameObject.GetComponent<Item>().Activate();
         }
     }
 }

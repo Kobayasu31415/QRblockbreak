@@ -304,6 +304,7 @@ GameObject:
   m_Component:
   - component: {fileID: 288868501}
   - component: {fileID: 288868502}
+  - component: {fileID: 288868503}
   m_Layer: 0
   m_Name: BlockManager
   m_TagString: Untagged
@@ -342,6 +343,21 @@ MonoBehaviour:
   m_blockPrefab: {fileID: 5447296542936548531, guid: 64cd1d1ff026e1841ae46940cdfdbee1, type: 3}
   m_kinematicblockPrefab: {fileID: 3558434612771801232, guid: d35eecc4bdf9b854c973eecd39d918b2, type: 3}
   m_QRcodeGenerator: {fileID: 1208566981}
+  m_itemPrefab:
+  - {fileID: 2209034967430721388, guid: 2cb0f59d91cd701448af1eee2dde888c, type: 3}
+  - {fileID: 2209034967430721388, guid: fa029bf25fd0f7f40a914a7eb14fba36, type: 3}
+--- !u!114 &288868503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288868500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6061cb0eb6483484e876d9b723dce48b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,7 +468,7 @@ GameObject:
   - component: {fileID: 771334283}
   m_Layer: 0
   m_Name: Bar
-  m_TagString: Untagged
+  m_TagString: Bar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

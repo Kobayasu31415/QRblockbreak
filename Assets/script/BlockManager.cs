@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-class BlockManager : MonoBehaviour
+public class BlockManager : SingletonMonoBehaviour<BlockManager>
 {
     [SerializeField]
     string m_url;
@@ -22,6 +23,8 @@ class BlockManager : MonoBehaviour
     int m_QRmargin = 4;
 
     float m_blocksize= 0.14f;
+
+    [SerializeField] public GameObject[] m_itemPrefab;
 
     void Start()
     {

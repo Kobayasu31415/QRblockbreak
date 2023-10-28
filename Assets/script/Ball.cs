@@ -1,4 +1,6 @@
 using UnityEngine; 
+using UnityEngine.Events;
+using System.Collections;
 
 class Ball :MonoBehaviour
 {
@@ -21,6 +23,10 @@ class Ball :MonoBehaviour
 
     Renderer m_renderer;
     float m_radius;
+    
+    bool m_penetration;
+    float m_PenetrationStartTime;
+    float m_PenetrationTime = 5f;
 
     void Awake()
     {
@@ -38,6 +44,9 @@ class Ball :MonoBehaviour
         m_boundaryBottom = Camera.main.ViewportToWorldPoint(Vector2.zero).y;
         m_boundaryLeft = Camera.main.ViewportToWorldPoint(Vector2.zero).x;
         m_boundaryRight = Camera.main.ViewportToWorldPoint(Vector2.right).x;
+
+        EventSender.Instance.m_SplitBallEvent += SplitBall;
+        EventSender.Instance.m_PenetrationEvent += Penetration;
     }
 
     void Update()
@@ -46,12 +55,28 @@ class Ball :MonoBehaviour
         transform.position = m_position;
         boundScreen();
         removeBall();
+
+        if(m_penetration == true)
+        {
+            if(Time.time - m_PenetrationStartTime > m_PenetrationTime)
+            {
+                m_penetration = false;
+            }
+        }
+
     }
     
     void OnCollisionEnter(Collision collision) 
-        {    
-            m_velocity = Vector3.Reflect(m_velocity, collision.contacts[0].normal);
-            m_destroyFlag = 0; 
+        {
+            if(collision.gameObject.CompareTag("Bar")){
+                m_velocity = Vector3.Reflect(m_velocity, collision.contacts[0].normal);
+                m_destroyFlag = 0; 
+            }
+
+            if(collision.gameObject.CompareTag("Block") && m_penetration == false){
+                m_velocity = Vector3.Reflect(m_velocity, collision.contacts[0].normal);
+                m_destroyFlag = 0; 
+            }
         }
 
     void boundScreen()
@@ -80,6 +105,20 @@ class Ball :MonoBehaviour
             Destroy(gameObject);
             m_destroyFlag = 0;
         }
+    }
+
+    void SplitBall()
+    {
+        var ball = Instantiate(this, m_position, transform.rotation);
+        ball.m_velocity = Quaternion.AngleAxis(30, Vector3.forward) * m_velocity;
+        ball.m_destroyFlag = 0;
+        ball.m_penetration = false;
+    }
+
+    void Penetration()
+    {
+        m_penetration = true;
+        m_PenetrationStartTime = Time.time;
     }
 }
 
