@@ -1,13 +1,13 @@
-using UnityEngine; 
+using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 
-class Ball :MonoBehaviour
+class Ball : MonoBehaviour
 {
     [SerializeField]
     float Speed = 2f;
     Vector3 m_position;
-    Vector3 m_velocity;
+    public Vector3 m_velocity;
 
     int m_destroyFlag = 0;
 
@@ -19,11 +19,9 @@ class Ball :MonoBehaviour
     float m_boundaryLeft;
     float m_boundaryRight;
 
-    float m_ShotOffset = 5f;
-
     Renderer m_renderer;
     float m_radius;
-    
+
     bool m_penetration;
     float m_PenetrationStartTime;
     float m_PenetrationTime = 5f;
@@ -36,6 +34,9 @@ class Ball :MonoBehaviour
 
     void Init()
     {
+        m_penetration = false;
+        m_destroyFlag = 0;
+
         m_radius = m_renderer.bounds.extents.x;
         m_position = transform.position;
 
@@ -51,37 +52,39 @@ class Ball :MonoBehaviour
 
     void Update()
     {
-        m_position +=  m_velocity * Time.deltaTime;
+        m_position += m_velocity * Time.deltaTime;
         transform.position = m_position;
         boundScreen();
         removeBall();
 
-        if(m_penetration == true)
+        if (m_penetration == true)
         {
-            if(Time.time - m_PenetrationStartTime > m_PenetrationTime)
+            if (Time.time - m_PenetrationStartTime > m_PenetrationTime)
             {
                 m_penetration = false;
             }
         }
 
     }
-    
-    void OnCollisionEnter(Collision collision) 
-        {
-            if(collision.gameObject.CompareTag("Bar")){
-                m_velocity = Vector3.Reflect(m_velocity, collision.contacts[0].normal);
-                m_destroyFlag = 0; 
-            }
 
-            if(collision.gameObject.CompareTag("Block") && m_penetration == false){
-                m_velocity = Vector3.Reflect(m_velocity, collision.contacts[0].normal);
-                m_destroyFlag = 0; 
-            }
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Bar"))
+        {
+            m_velocity = Vector3.Reflect(m_velocity, collision.contacts[0].normal);
+            m_destroyFlag = 0;
         }
+
+        if (collision.gameObject.CompareTag("Block") && m_penetration == false)
+        {
+            m_velocity = Vector3.Reflect(m_velocity, collision.contacts[0].normal);
+            m_destroyFlag = 0;
+        }
+    }
 
     void boundScreen()
     {
-        if(m_position.y > m_boundaryTop - m_radius)
+        if (m_position.y > m_boundaryTop - m_radius)
         {
             m_velocity.y = -Mathf.Abs(m_velocity.y);
             m_destroyFlag++;
@@ -97,11 +100,14 @@ class Ball :MonoBehaviour
             m_destroyFlag++;
         }
     }
-    
+
     void removeBall()
     {
-        if((m_position.y < m_boundaryBottom)||(m_destroyFlag > NumofReflect))
+        if ((m_position.y < m_boundaryBottom) || (m_destroyFlag > NumofReflect))
         {
+            BallManager.Instance.DestroyBall();
+            EventSender.Instance.m_SplitBallEvent -= SplitBall;
+            EventSender.Instance.m_PenetrationEvent -= Penetration;
             Destroy(gameObject);
             m_destroyFlag = 0;
         }
@@ -109,10 +115,7 @@ class Ball :MonoBehaviour
 
     void SplitBall()
     {
-        var ball = Instantiate(this, m_position, transform.rotation);
-        ball.m_velocity = Quaternion.AngleAxis(30, Vector3.forward) * m_velocity;
-        ball.m_destroyFlag = 0;
-        ball.m_penetration = false;
+        BallManager.Instance.SplitBall(m_position, transform.rotation, m_velocity);
     }
 
     void Penetration()

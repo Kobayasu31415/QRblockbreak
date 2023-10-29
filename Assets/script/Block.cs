@@ -6,10 +6,17 @@ class Block : MonoBehaviour, IBreakable
     float m_deltaTime;
     float m_CreateItemRatio = 0.2f;
 
+    void Awake()
+    {
+        // Tweenの最大容量を500、シーケンスの最大容量を100に設定する例
+        DOTween.SetTweensCapacity(500, 100);
+
+        // その後でDOTweenを初期化
+        DOTween.Init();
+    }
     public void OnBreak()
     {
         transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InOutQuart).OnComplete(() => Destroy(gameObject));
-        //transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.).OnComplete(()=> Destroy(gameObject));
         CreateItem();
     }
     void OnCollisionEnter(Collision collision)

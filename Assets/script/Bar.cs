@@ -6,9 +6,6 @@ class Bar : MonoBehaviour
     [SerializeField]
 
     Vector3 m_mousePose;
-    [SerializeField]
-    Ball m_ballPrefab;
-    public GameObject m_ball;
 
     float m_barThickness;
     Vector3 m_createBallPosition;
@@ -19,7 +16,6 @@ class Bar : MonoBehaviour
     {
         m_barThickness = gameObject.transform.localScale.y;
         Debug.Log(m_barThickness);
-
     }
 
     void Update()
@@ -31,19 +27,8 @@ class Bar : MonoBehaviour
         //if(Input.GetMouseButton(0))
         if(Input.GetMouseButtonDown(0))
         {
-            CreateBall();
-        }
-    }
-
-
-    void CreateBall()
-    {
-        m_ball = GameObject.FindWithTag("Ball");
-        m_createBallPosition = transform.position + m_barThickness * Vector3.up * m_ShotOffset;
-        //m_createBallPosition = transform.position + Vector3.up * m_ShotOffset;  
-        if(m_ball == null){
-            var ball = Instantiate(m_ballPrefab,m_createBallPosition,transform.rotation);
-            //ball.transform.position= transform.position;
+            m_createBallPosition = transform.position + m_barThickness * Vector3.up * m_ShotOffset;  
+            BallManager.Instance.CreateBall(m_createBallPosition, transform.rotation);
         }
     }
 
